@@ -1,7 +1,7 @@
 FROM ubuntu:16.04
 
 ENV RUBY_INSTALL_VERSION 0.6.1
-ENV RUBY_VERSION 2.2
+ENV RUBY_VERSION 2.4
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		apache2 \
@@ -24,19 +24,20 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 		make \
 		nodejs \
                 supervisor \
+		tzdata \
 		wget \
 		zlib1g-dev \
         && apt-get clean \
         && rm -fr /var/lib/apt/lists/*
 
-RUN wget -O ruby-install-0.6.1.tar.gz https://github.com/postmodern/ruby-install/archive/v0.6.1.tar.gz \
-	&& tar -zxf ruby-install-0.6.1.tar.gz
+RUN wget -O ruby-install-$RUBY_INSTALL_VERSION.tar.gz https://github.com/postmodern/ruby-install/archive/v$RUBY_INSTALL_VERSION.tar.gz \
+	&& tar -zxf ruby-install-$RUBY_INSTALL_VERSION.tar.gz
 
-WORKDIR /ruby-install-0.6.1
+WORKDIR /ruby-install-$RUBY_INSTALL_VERSION
 
 RUN make install
 
-RUN ruby-install --system ruby 2.2 -- --disable-install-rdoc
+RUN ruby-install --system ruby $RUBY_VERSION -- --disable-install-rdoc
 RUN gem update --system
 RUN gem install passenger bundler --no-ri --no-rdoc
 RUN passenger-install-apache2-module
