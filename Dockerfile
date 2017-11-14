@@ -1,5 +1,6 @@
 FROM ubuntu:16.04
 
+ENV LANG C.UTF-8
 ENV RUBY_INSTALL_VERSION 0.6.1
 ENV RUBY_VERSION 2.4
 
@@ -39,7 +40,7 @@ RUN make install
 
 RUN ruby-install --system ruby $RUBY_VERSION -- --disable-install-rdoc
 RUN gem update --system
-RUN gem install passenger bundler --no-ri --no-rdoc
+RUN gem install passenger --no-ri --no-rdoc
 RUN passenger-install-apache2-module
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
