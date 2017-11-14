@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 ENV LANG C.UTF-8
 ENV RUBY_INSTALL_VERSION 0.6.1
-ENV RUBY_VERSION 2.4
+ENV RUBY_VERSION 2.3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 		apache2 \
